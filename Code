@@ -44,8 +44,7 @@ class Queue:
         return len(self.items)
 
 def compare_cards(card1: int, card2: int) -> int:
-    # Карта побеждает меньшую, при равенстве - ничья (не используется в игре)
-    # В условии указано, что 0 побеждает 9
+   
     if card1 == 0 and card2 == 9:
         return 1
     elif card1 == 9 and card2 == 0:
@@ -76,11 +75,11 @@ def play_game(player1_cards: List[int], player2_cards: List[int]) -> str:
         result = compare_cards(card1, card2)
         
         if result == 1:
-            # Первый игрок побеждает: кладет свои карты в низ очереди
+            
             queue1.enqueue(card1)
             queue1.enqueue(card2)
         else:
-            # Второй игрок побеждает
+           
             queue2.enqueue(card1)
             queue2.enqueue(card2)
     
