@@ -44,7 +44,6 @@ class Queue:
         return len(self.items)
 
 def compare_cards(card1: int, card2: int) -> int:
-   
     if card1 == 0 and card2 == 9:
         return 1
     elif card1 == 9 and card2 == 0:
@@ -75,11 +74,9 @@ def play_game(player1_cards: List[int], player2_cards: List[int]) -> str:
         result = compare_cards(card1, card2)
         
         if result == 1:
-            
             queue1.enqueue(card1)
             queue1.enqueue(card2)
         else:
-           
             queue2.enqueue(card1)
             queue2.enqueue(card2)
     
@@ -90,32 +87,45 @@ def play_game(player1_cards: List[int], player2_cards: List[int]) -> str:
     else:
         return "botva"
 
-def main():
-    print("Игра в «пьяницу»")
-    print("Введите по пять чисел (от 0 до 9) для каждого игрока.")
-    
+def run_game():
+    print("\nВведите карты первого игрока (5 чисел от 0 до 9 через пробел):")
     while True:
         try:
-            input_line_1 = input("Карты первого игрока (через пробел): ").strip()
-            input_line_2 = input("Карты второго игрока (через пробел): ").strip()
-            
-            cards_player_1 = list(map(int, input_line_1.split()))
-            cards_player_2 = list(map(int, input_line_2.split()))
-            
-            if len(cards_player_1) !=5 or len(cards_player_2)!=5:
-                print("Ошибка: необходимо ввести ровно по пять чисел для каждого игрока.")
+            first_player_input = input()
+            first_player_cards = list(map(int, first_player_input.strip().split()))
+            if len(first_player_cards) != 5:
+                print("Ошибка: необходимо ввести ровно 5 чисел.")
                 continue
-            
-            if any(c <0 or c >9 for c in cards_player_1 + cards_player_2):
+            if not all(0 <= c <= 9 for c in first_player_cards):
                 print("Ошибка: карты должны быть числами от 0 до 9.")
                 continue
-            
             break
         except ValueError:
             print("Ошибка ввода. Убедитесь, что вводите числа через пробел.")
-    
-    result = play_game(cards_player_1, cards_player_2)
-    
+
+    print("\nВведите карты второго игрока (5 чисел от 0 до 9 через пробел):")
+    while True:
+        try:
+            second_player_input = input()
+            second_player_cards = list(map(int, second_player_input.strip().split()))
+            if len(second_player_cards) !=5:
+                print("Ошибка: необходимо ввести ровно 5 чисел.")
+                continue
+            if not all(0 <= c <=9 for c in second_player_cards):
+                print("Ошибка: карты должны быть числами от 0 до 9.")
+                continue
+            # Проверка на уникальность карт у обоих игроков
+            set_p1 = set(first_player_cards)
+            set_p2 = set(second_player_cards)
+            if set_p1.intersection(set_p2):
+                print("Ошибка: у обоих игроков есть одинаковые карты. Введите уникальные карты для каждого.")
+                continue
+            break
+        except ValueError:
+            print("Ошибка ввода. Убедитесь, что вводите числа через пробел.")
+
+    result = play_game(first_player_cards, second_player_cards)
+
     print("\nРезультат игры:")
     if result == "botva":
         print("botva")
@@ -123,5 +133,22 @@ def main():
         winner, moves_count = result.split()
         print(f"{winner} выиграл за {moves_count} ходов.")
 
+def main():
+    while True:
+        print("\n===Добро пожаловать в игру <<Пьяница>>===")
+        print("1. Запустить новую игру")
+        print("2. Выйти из программы")
+        choice = input("Выберите действие (1-2): ")
+
+        if choice == '1':
+            run_game()
+        elif choice == '2':
+            print("Выход из программы.")
+            break
+        else:
+            print("Некорректный выбор. Попробуйте снова.")
+
 if __name__ == "__main__":
     main()
+
+
