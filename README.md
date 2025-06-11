@@ -114,7 +114,6 @@ def run_game():
             if not all(0 <= c <=9 for c in second_player_cards):
                 print("Ошибка: карты должны быть числами от 0 до 9.")
                 continue
-            # Проверка на уникальность карт у обоих игроков
             set_p1 = set(first_player_cards)
             set_p2 = set(second_player_cards)
             if set_p1.intersection(set_p2):
